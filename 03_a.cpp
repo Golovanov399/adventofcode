@@ -19,21 +19,17 @@ int main() {
 		a.push_back(s);
 	}
 
-	long long answer = 1;
-	for (auto [p, q] : vector<pair<int, int>>{{1, 1}, {1, 3}, {1, 5}, {1, 7}, {2, 1}}) {
-		int ans = 0;
-		int x = 0, y = 0;
-		while (x < (int)a.size()) {
-			if (a[x][y] == '#') {
-				++ans;
-			}
-			y += q;
-			y %= a[x].size();
-			x += p;
+	int ans = 0;
+	int x = 0, y = 0;
+	while (x < (int)a.size()) {
+		if (a[x][y] == '#') {
+			++ans;
 		}
-		answer *= ans;
+		y += 3;
+		y %= a[x].size();
+		x += 1;
 	}
-	cout << answer << "\n";
+	cout << ans << "\n";
 
 	return 0;
 }
