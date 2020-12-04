@@ -12,28 +12,38 @@ inline int nxt() {
 	return x;
 }
 
-int main() {
-	vector<string> a;
-	string s;
-	while (cin >> s) {
-		a.push_back(s);
-	}
+const set<string> keys = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"};
+const set<string> maybe = {"cid"};
 
-	long long answer = 1;
-	for (auto [p, q] : vector<pair<int, int>>{{1, 1}, {1, 3}, {1, 5}, {1, 7}, {2, 1}}) {
-		int ans = 0;
-		int x = 0, y = 0;
-		while (x < (int)a.size()) {
-			if (a[x][y] == '#') {
-				++ans;
-			}
-			y += q;
-			y %= a[x].size();
-			x += p;
+int main() {
+	int ans = 0;
+	string s;
+	set<string> cur;
+	bool fail = false;
+	while (getline(cin, s)) {
+		if (s == "") {
+			ans += !fail && cur.size() == keys.size();
+			fail = false;
+			cur.clear();
 		}
-		answer *= ans;
+		istringstream sstr(s);
+		string t;
+		while (sstr >> t) {
+			if (t.find(':') == string::npos) {
+				fail = true;
+				break;
+			}
+			auto st = t.substr(0, t.find(':'));
+			if (cur.count(st)) {
+				fail = true;
+			} else if (keys.count(st)) {
+				cur.insert(st);
+			} else if (!maybe.count(st)) {
+				fail = true;
+			}
+		}
 	}
-	cout << answer << "\n";
+	cout << ans << "\n";
 
 	return 0;
 }
