@@ -14,21 +14,19 @@ inline int nxt() {
 
 int main() {
 	string s;
-	int mask = (1 << 26) - 1;
+	int mask = 0;
 	int ans = 0;
 	while (getline(cin, s)) {
 		if (s.empty()) {
 			ans += __builtin_popcount(mask);
-			mask = (1 << 26) - 1;
+			mask = 0;
 		} else {
-			int tmp = 0;
 			for (char c : s) {
-				tmp |= 1 << (c - 'a');
+				mask |= 1 << (c - 'a');
 			}
-			mask &= tmp;
 		}
 	}
-	cout << ans << "\n";
+	cout << ans + __builtin_popcount(mask) << "\n";
 
 	return 0;
 }
