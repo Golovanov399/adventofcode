@@ -14,19 +14,19 @@ for rule in a:
 	idx = tokens.index("bags")
 	col = " ".join(tokens[:idx])
 	assert idx == 2
-	if tokens[idx + 2:] == ["no", "other", "bags."]:
-		continue
 	for i in range(idx + 2, len(tokens), 4):
 		nc = tokens[i + 1] + " " + tokens[i + 2]
-		g[col].append((nc, int(tokens[i])))
+		g[nc].append(col)
 
-ans = 0
-def rec(col, mult):
-	global ans
-	ans += mult
-	for nc, m in g[col]:
-		rec(nc, mult * m)
+st = ["shiny gold"]
+S = set(st)
+i = 0
+while i < len(st):
+	col = st[i]
+	for nc in g[col]:
+		if nc not in S:
+			S.add(nc)
+			st.append(nc)
+	i += 1
 
-rec("shiny gold", 1)
-ans -= 1
-print(ans)
+print(len(S) - 1)
