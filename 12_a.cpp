@@ -13,7 +13,7 @@ inline int nxt() {
 }
 
 int main() {
-	int dx = 10, dy = 1;
+	int dx = 1, dy = 0;
 	int x = 0, y = 0;
 	string s;
 	while (cin >> s) {
@@ -37,13 +37,13 @@ int main() {
 			x += dx * d;
 			y += dy * d;
 		} else if (c == 'N') {
-			dy += d;
+			y += d;
 		} else if (c == 'S') {
-			dy -= d;
+			y -= d;
 		} else if (c == 'E') {
-			dx += d;
+			x += d;
 		} else if (c == 'W') {
-			dx -= d;
+			x -= d;
 		} else {
 			assert(false);
 		}
