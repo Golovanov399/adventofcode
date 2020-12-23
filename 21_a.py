@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from itertools import permutations
+from collections import defaultdict
 
 d = dict()
+cnt = defaultdict(int)
 
 with open("in.in") as f:
 	for line in f:
@@ -18,18 +19,17 @@ with open("in.in") as f:
 				d[x] = a
 			else:
 				d[x] = d[x].intersection(a)
+		for x in a:
+			cnt[x] += 1
 
-bad = set()
+safe = set(cnt.keys())
 for v in d.values():
-	bad.update(v)
+	for x in v:
+		if x in safe:
+			safe.remove(x)
 
-keys = sorted(d.keys())
-vals = list(bad)
+ans = 0
+for x in safe:
+	ans += cnt[x]
 
-for p in permutations(range(len(bad))):
-	ok = True
-	for i in range(len(keys)):
-		if vals[p[i]] not in d[keys[i]]:
-			ok = False
-	if ok:
-		print(*[vals[p[i]] for i in range(len(keys))], sep=",")
+print(ans)
