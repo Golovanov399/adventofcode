@@ -13,20 +13,19 @@ inline int nxt() {
 }
 
 int main() {
-	int hor = 0, aim = 0, dep = 0;
+	int x = 0, y = 0;
 	string s;
 	int t;
 	while (cin >> s >> t) {
 		if (s[0] == 'f') {
-			hor += t;
-			dep += aim * t;
+			x += t;
 		} else if (s[0] == 'd') {
-			aim += t;
+			y += t;
 		} else {
-			aim -= t;
+			y -= t;
 		}
 	}
-	cout << 1ll * hor * dep << "\n";
+	cout << x * y << "\n";
 
 	return 0;
 }
