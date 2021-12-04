@@ -14,7 +14,6 @@ inline int nxt() {
 
 const int n = 100;
 int a[n][5][5];
-bool win[n];
 
 bool check(int idx) {
 	for (int i = 0; i < 5; ++i) {
@@ -56,12 +55,8 @@ int main() {
 		}
 	}
 
-	int rem = n;
 	for (int x : seq) {
 		for (int i = 0; i < n; ++i) {
-			if (win[i]) {
-				continue;
-			}
 			for (int j = 0; j < 5; ++j) {
 				for (int k = 0; k < 5; ++k) {
 					if (a[i][j][k] == x) {
@@ -70,20 +65,16 @@ int main() {
 				}
 			}
 			if (check(i)) {
-				--rem;
-				win[i] = 1;
-				if (rem == 0) {
-					int tot = 0;
-					for (int j = 0; j < 5; ++j) {
-						for (int k = 0; k < 5; ++k) {
-							if (a[i][j][k] > -1) {
-								tot += a[i][j][k];
-							}
+				int tot = 0;
+				for (int j = 0; j < 5; ++j) {
+					for (int k = 0; k < 5; ++k) {
+						if (a[i][j][k] > -1) {
+							tot += a[i][j][k];
 						}
 					}
-					cout << tot * x << "\n";
-					return 0;
 				}
+				cout << tot * x << "\n";
+				return 0;
 			}
 		}
 	}
