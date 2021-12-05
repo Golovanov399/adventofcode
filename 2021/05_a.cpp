@@ -29,7 +29,7 @@ int main() {
 		auto [x2, y2] = parse(t);
 		int dx = x2 < x1 ? -1 : x2 > x1;
 		int dy = y2 < y1 ? -1 : y2 > y1;
-		if (abs(dx) > 1 || abs(dy) > 1) {
+		if (dx * dx + dy * dy >= 2) {
 			continue;
 		}
 		int x = x1, y = y1;
