@@ -24,31 +24,18 @@ int main() {
 			a[i][j] = s[j] - '0';
 		}
 	}
-	int ans = 0;
-	for (int it = 0;; ++it) {
-		int mx = 0;
+	int cnt = 0;
+	for (int it = 0; it < 100; ++it) {
 		vector<pair<int, int>> st;
 		memset(used, 0, sizeof(used));
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
-				mx = max(mx, a[i][j]);
-				// if (++a[i][j] > 9) {
-				// 	used[i][j] = 1;
-				// 	st.push_back({i, j});
-				// }
-			}
-		}
-		ans += 10 - mx;
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < n; ++j) {
-				a[i][j] += 10 - mx;
-				if (a[i][j] > 9) {
+				if (++a[i][j] > 9) {
 					used[i][j] = 1;
 					st.push_back({i, j});
 				}
 			}
 		}
-		int cnt = 0;
 		while (!st.empty()) {
 			auto [x, y] = st.back();
 			st.pop_back();
@@ -70,11 +57,8 @@ int main() {
 				}
 			}
 		}
-		if (cnt == n * n) {
-			cout << ans << "\n";
-			return 0;
-		}
 	}
+	cout << cnt << "\n";
 
 	return 0;
 }
