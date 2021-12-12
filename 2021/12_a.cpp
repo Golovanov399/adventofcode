@@ -38,8 +38,7 @@ int main() {
 		M[to].push_back(from);
 	}
 
-	multiset<string> used;
-	bool can = true;
+	set<string> used;
 	int ans = 0;
 	function<void(string)> rec = [&](string s) {
 		if (s == "end") {
@@ -52,14 +51,10 @@ int main() {
 		for (auto t : M.at(s)) {
 			if (!used.contains(t)) {
 				rec(t);
-			} else if (can && t != "start") {
-				can = false;
-				rec(t);
-				can = true;
 			}
 		}
 		if (islower(s)) {
-			used.erase(used.find(s));
+			used.erase(s);
 		}
 	};
 	rec("start");
