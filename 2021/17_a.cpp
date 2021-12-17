@@ -30,26 +30,32 @@ int main() {
 	}
 	cerr << mx << " " << Mx << " " << my << " " << My << "\n";
 
-	int ans = 0;
+	pair<int, int> ans = {-1e9, 0};
 	for (int x = 1; x <= Mx; ++x) {
-		for (int y = my; y <= -my; ++y) {
+		for (int y = My; y <= -my; ++y) {
 			bool ok = false;
 			int dx = x, dy = y;
 			int cx = 0, cy = 0;
+			int maxy = 0;
 			while (cx <= Mx && cy >= my) {
 				cx += dx;
 				cy += dy;
+				maxy = max(maxy, cy);
 				ok |= clamp(cx, mx, Mx) == cx && clamp(cy, my, My) == cy;
 				dx -= (dx < 0 ? -1 : dx > 0);
 				dy -= 1;
 			}
 
 			if (ok) {
-				++ans;
+				ans = max(ans, {maxy, y});
+			}
+
+			if (cy > My) {
+				break;
 			}
 		}
 	}
-	cout << ans << "\n";
+	cout << ans.first << "\n";
 
 	return 0;
 }
