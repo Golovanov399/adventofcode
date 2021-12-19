@@ -203,21 +203,13 @@ int main() {
 		}
 	}
 
-	int ans = 0;
-	for (auto p : sc) {
-		for (auto q : sc) {
-			ans = max(ans, abs(p.x - q.x) + abs(p.y - q.y) + abs(p.z - q.z));
+	set<Point> pts;
+	for (int i = 0; i < n; ++i) {
+		for (auto p : a[i]) {
+			pts.insert(p + sc[i]);
 		}
 	}
-	cout << ans << "\n";
-
-	// set<Point> pts;
-	// for (int i = 0; i < n; ++i) {
-	// 	for (auto p : a[i]) {
-	// 		pts.insert(p + sc[i]);
-	// 	}
-	// }
-	// cout << pts.size() << "\n";
+	cout << pts.size() << "\n";
 
 	return 0;
 }
