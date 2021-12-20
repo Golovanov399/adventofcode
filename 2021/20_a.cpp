@@ -12,7 +12,7 @@ inline int nxt() {
 	return x;
 }
 
-const int K = 50;
+const int K = 2;
 const int off = K + 5;
 const int n = 100;
 const int N = n + 2 * off;
@@ -31,7 +31,7 @@ int main() {
 		}
 	}
 
-	for (int it = 0; it < 50; ++it) {
+	for (int it = 0; it < 2; ++it) {
 		memset(b, 0, sizeof(b));
 		for (int i = 0; i < N; ++i) {
 			for (int j = 0; j < N; ++j) {
@@ -49,13 +49,13 @@ int main() {
 			}
 		}
 		memcpy(a, b, sizeof(b));
-		// for (int i = 0; i < N; ++i) {
-		// 	for (int j = 0; j < N; ++j) {
-		// 		cerr << ".#"[a[i][j]];
-		// 	}
-		// 	cerr << "\n";
-		// }
-		// cerr << "\n";
+		for (int i = 0; i < N; ++i) {
+			for (int j = 0; j < N; ++j) {
+				cerr << ".#"[a[i][j]];
+			}
+			cerr << "\n";
+		}
+		cerr << "\n";
 	}
 
 	int ans = 0;
