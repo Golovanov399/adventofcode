@@ -138,14 +138,14 @@ int main() {
 			getline(cin, s);
 		}
 	}
-	string res(14, '1');
+	string res(14, '9');
 	for (int i = 0; i < 14; ++i) {
 		if (is_zero[i]) {
 			cerr << "#" << which[i].first << " + " << which[i].second + xadds[i] << " = #" << i << "\n";
 			if (which[i].second + xadds[i] > 0) {
-				res[i] = '1' + (which[i].second + xadds[i]);
+				res[which[i].first] = '9' - (which[i].second + xadds[i]);
 			} else {
-				res[which[i].first] = '1' - (which[i].second + xadds[i]);
+				res[i] = '9' + (which[i].second + xadds[i]);
 			}
 		}
 	}
