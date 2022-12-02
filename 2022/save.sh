@@ -2,7 +2,7 @@
 
 day=$(date +%d)
 part=${1:-a}
-qwe=$(ls -t qwe* | head -n 1)
+qwe=$(ls -t qwe.* | head -n 1)
 ext="${qwe##*.}"
 
 name="${day}_$part.$ext"
