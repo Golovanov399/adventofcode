@@ -17,8 +17,11 @@ int main() {
 	int ans = 0;
 	while (cin >> a >> x) {
 		int aa = a - 'A';
-		int out = x - 'X' - 1;
-		int xx = (aa + out + 3) % 3;
+		int xx = x - 'X';
+		int out = -1;
+		while ((aa + out + 3) % 3 != xx) {
+			++out;
+		}
 		ans += 1 + xx + (1 + out) * 3;
 	}
 	cout << ans << "\n";
