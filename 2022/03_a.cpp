@@ -20,24 +20,24 @@ int f(char c) {
 	}
 }
 
-long long g(string s) {
-	long long res = 0;
-	for (char c : s) {
-		res |= 1ll << f(c);
-	}
-	return res;
-}
-
 int main() {
 	string s;
 	int ans = 0;
 	while (cin >> s) {
-		auto m = g(s);
-		cin >> s;
-		m &= g(s);
-		cin >> s;
-		m &= g(s);
-		ans += __builtin_ctzll(m);
+		int n = s.length();
+		set<int> S;
+		for (int i = 0; i < n / 2; ++i) {
+			S.insert(f(s[i]));
+		}
+		set<int> T;
+		for (int i = n / 2; i < n; ++i) {
+			if (S.contains(f(s[i]))) {
+				T.insert(f(s[i]));
+			}
+		}
+		for (int x : T) {
+			ans += x;
+		}
 	}
 	cout << ans << "\n";
 
