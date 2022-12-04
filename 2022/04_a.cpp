@@ -27,7 +27,7 @@ int main() {
 	while (cin >> s) {
 		int i = s.find(',');
 		auto p1 = f(s.substr(0, i)), p2 = f(s.substr(i + 1));
-		if (max(p1.first, p2.first) <= min(p1.second, p2.second)) {
+		if (cont(p1, p2) || cont(p2, p1)) {
 			++ans;
 		}
 	}
