@@ -47,7 +47,7 @@ int main() {
 			c = min(c, (int)a[f].length());
 			auto str = a[f].substr((int)a[f].size() - c);
 			a[f] = a[f].substr(0, (int)a[f].length() - c);
-			// reverse(all(str));
+			reverse(all(str));
 			a[t] += str;
 		} else if (s.find('[') != string::npos) {
 			for (int i = 0; i < n; ++i) {
