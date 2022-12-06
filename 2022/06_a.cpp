@@ -14,17 +14,17 @@ inline int nxt() {
 
 bool ok(string s) {
 	make_unique(s);
-	return s.size() == 14;
+	return s.size() == 4;
 }
 
 int main() {
 	string s;
 	cin >> s;
 	int i = 0;
-	while (!ok(s.substr(i, 14))) {
+	while (!ok(s.substr(i, 4))) {
 		++i;
 	}
-	cout << i + 14 << "\n";
+	cout << i + 4 << "\n";
 
 	return 0;
 }
