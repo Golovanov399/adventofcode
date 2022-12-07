@@ -75,26 +75,18 @@ int main() {
 		}
 	}
 
+	long long ans = 0;
 	function<void(Dir*)> rec = [&](Dir* v) {
 		for (const auto& it : v->sons) {
 			auto u = it.second;
 			rec(u);
 			v->sz += u->sz;
 		}
+		if (v->sz <= 100'000) {
+			ans += v->sz;
+		}
 	};
 	rec(root);
-	auto need = root->sz - 40'000'000;
-	long long ans = 1e9;
-	function<void(Dir*)> find_good = [&](Dir* v) {
-		if (v->sz >= need && v->sz < ans) {
-			ans = v->sz;
-		}
-		for (const auto& it : v->sons) {
-			auto u = it.second;
-			find_good(u);
-		}
-	};
-	find_good(root);
 	cout << ans << "\n";
 
 	return 0;
