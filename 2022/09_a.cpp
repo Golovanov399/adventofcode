@@ -16,12 +16,8 @@ struct Point {
 	int x, y;
 };
 
-int sign(int x) {
-	return x < 0 ? -1 : x > 0;
-}
-
 int main() {
-	vector<Point> rope(10, Point{0, 0});
+	Point h{0, 0}, t{0, 0};
 	char dir;
 	int s;
 	set<int> S;
@@ -38,23 +34,19 @@ int main() {
 			dy -= 1;
 		}
 		while (s--) {
-			rope[0].x += dx, rope[0].y += dy;
+			h.x += dx;
+			h.y += dy;
 
-			for (int i = 0; i < 9; ++i) {
-				int sx = 0, sy = 0;
-				if (abs(rope[i + 1].x - rope[i].x) <= 1 && abs(rope[i + 1].y - rope[i].y) <= 1) {
-					//
-				} else if ((dx == 0 && rope[i + 1].x == rope[i].x) || (dy == 0 && rope[i + 1].y == rope[i].y)) {
-					sx = dx;
-					sy = dy;
-				} else {
-					sx = sign(rope[i].x - rope[i + 1].x);
-					sy = sign(rope[i].y - rope[i + 1].y);
-				}
-				rope[i + 1].x += sx;
-				rope[i + 1].y += sy;
+			if (abs(t.x - h.x) <= 1 && abs(t.y - h.y) <= 1) {
+				//
+			} else if (t.x == h.x || t.y == h.y) {
+				t.x += dx;
+				t.y += dy;
+			} else {
+				t.x = h.x - dx;
+				t.y = h.y - dy;
 			}
-			S.insert(rope[9].x * 10000 + rope[9].y);
+			S.insert(t.x * 10000 + t.y);
 		}
 	}
 	cout << S.size() << "\n";
