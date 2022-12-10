@@ -13,25 +13,29 @@ inline int nxt() {
 }
 
 int main() {
+	int s = 0;
 	int cur = 1;
-	string row;
-	auto upd_row = [&]() {
-		row += (abs((int)row.size() - cur) <= 1) ? '#' : '.';
-		if ((int)row.size() == 40) {
-			cout << row << "\n";
-			row = "";
-		}
-	};
+	int c = 0;
 	string type;
 	while (cin >> type) {
 		if (type == "noop") {
-			upd_row();
+			if (c % 40 == 19) {
+				s += cur * (c + 1);
+			}
+			c += 1;
 		} else {
-			upd_row();
-			upd_row();
+			if (c % 40 == 19) {
+				s += cur * (c + 1);
+			}
+			c += 1;
+			if (c % 40 == 19) {
+				s += cur * (c + 1);
+			}
+			c += 1;
 			cur += nxt();
 		}
 	}
+	cout << s << "\n";
 
 	return 0;
 }
