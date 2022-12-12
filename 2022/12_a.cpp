@@ -29,14 +29,12 @@ int main() {
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < m; ++j) {
 			if (a[i][j] == 'S') {
+				q.push({i, j});
 				a[i][j] = 'a';
+				d[i][j] = 0;
 			} else if (a[i][j] == 'E') {
 				need = {i, j};
 				a[i][j] = 'z';
-			}
-			if (a[i][j] == 'a') {
-				q.push({i, j});
-				d[i][j] = 0;
 			}
 		}
 	}
