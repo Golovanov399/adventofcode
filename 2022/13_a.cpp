@@ -82,32 +82,24 @@ void output(Node* node) {
 }
 
 int main() {
-	string s;
-	vector<Node*> nodes;
-	while (cin >> s) {
-		int i = 0;
-		nodes.push_back(parse(s, i));
-	}
-	{
-		int i = 0;
-		nodes.push_back(parse("[[2]]", i));
-	}
-	{
-		int i = 0;
-		nodes.push_back(parse("[[6]]", i));
-	}
-	vector<int> idx(nodes.size());
-	iota(all(idx), 0);
-	sort(all(idx), [&](int i, int j) {
-		return cmp(nodes[i], nodes[j]) < 0;
-	});
-	int ans = 1;
-	for (int i = 0; i < (int)nodes.size(); ++i) {
-		if (idx[i] >= (int)nodes.size() - 2) {
-			ans *= i + 1;
+	string s, t;
+	int idx = 0;
+	int sum = 0;
+	while (cin >> s >> t) {
+		++idx;
+		int i = 0, j = 0;
+		auto sn = parse(s, i);
+		auto tn = parse(t, j);
+		// output(sn);
+		// cerr << ", ";
+		// output(tn);
+		// cerr << "\n";
+		if (cmp(sn, tn) < 0) {
+			// cerr << idx << " ";
+			sum += idx;
 		}
 	}
-	cout << ans << "\n";
+	cout << sum << "\n";
 
 	return 0;
 }
