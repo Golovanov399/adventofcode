@@ -35,7 +35,7 @@ int sign(int x) {
 
 int main() {
 	vector<tuple<int, int, int>> rhombs;
-	[[maybe_unused]] vector<pair<int, int>> beacons;
+	vector<pair<int, int>> beacons;
 	{
 		string s;
 		while (getline(cin, s)) {
@@ -51,8 +51,6 @@ int main() {
 	}
 	make_unique(beacons);
 
-	int lb = 0, rb = 4e6 + 1;
-	int skipped = -1;
 	auto calc_y = [&](int yy) {
 		vector<pair<int, int>> segs;
 		for (auto [x, y, d] : rhombs) {
@@ -63,15 +61,13 @@ int main() {
 			segs.push_back({x - rest, x + rest + 1});
 		}
 		sort(all(segs));
-		int last = lb;
+		int last = -1e9;
 		int ans = 0;
 		for (auto [l, r] : segs) {
 			if (r <= last) {
 				continue;
 			}
-			r = min(r, rb);
-			if (l > last) {
-				skipped = last;
+			if (l >= last) {
 				ans += r - l;
 			} else {
 				ans += r - last;
@@ -79,16 +75,15 @@ int main() {
 			last = r;
 		}
 
+		for (auto [x, y] : beacons) {
+			if (y == yy) {
+				--ans;
+			}
+		}
+
 		return ans;
 	};
-
-	for (int y = lb; y < rb; ++y) {
-		if (calc_y(y) < rb - lb) {
-			cerr << skipped << ", " << y << "\n";
-			cout << skipped * 1ll * (rb - 1) + y << "\n";
-			// break;
-		}
-	}
+	cout << calc_y(2e6) << "\n";
 
 	return 0;
 }
