@@ -33,12 +33,6 @@ int sign(int x) {
 	return x < 0 ? -1 : x > 0;
 }
 
-double get_time() {
-	return std::chrono::system_clock::now().time_since_epoch().count() * 1e-9;
-}
-
-using ld = double;
-
 int main() {
 	map<string, vector<string>> to;
 	map<string, int> score;
@@ -88,7 +82,7 @@ int main() {
 	}
 
 	auto get_score = [&](const vector<int>& perm) {
-		int t = 26;
+		int t = 30;
 		int v = 0;
 		int ans = 0;
 		for (int i : perm) {
@@ -104,64 +98,38 @@ int main() {
 
 	auto f = [&](int seed) {
 		mt19937 rr(seed);
-
-		auto rand_double = [&]() {
-			return (ld)rr() / decltype(rr)::max();
-		};
-
 		vector<int> perm(n - 1);
 		iota(all(perm), 1);
 		shuffle(all(perm), rr);
-		vector<int> left, right;
-		for (int x : perm) {
-			if (rr() % 2) {
-				left.push_back(x);
-			} else {
-				right.push_back(x);
-			}
-		}
-		double start = get_time();
-		const ld tmax = 1e2;
-		const ld tmin = 1e-9;
-		const ld max_time = 2;
-		int ans = get_score(left) + get_score(right);
+		int ans = get_score(perm);
 		while (true) {
-			auto cur_time = (get_time() - start) / max_time;
-			if (cur_time > 1) {
+			bool ok = false;
+			for (int i = 0; i < (int)perm.size(); ++i) {
+				auto p = perm;
+				p.erase(p.begin() + i);
+				for (int j = 0; j < (int)perm.size(); ++j) {
+					p.insert(p.begin() + j, perm[i]);
+					if (auto s = get_score(p); s > ans) {
+						ans = s;
+						perm = p;
+						ok = true;
+						break;
+					}
+					p.erase(p.begin() + j);
+				}
+			}
+			if (!ok) {
 				break;
-			}
-			ld temp = tmax * pow(tmin / tmax, cur_time);
-
-			auto nl = left, nr = right;
-			int i = rr() % (nl.size() + nr.size());
-			int x = -1;
-			if (i < (int)nl.size()) {
-				x = nl[i];
-				nl.erase(nl.begin() + i);
-			} else {
-				x = nr[i - (int)nl.size()];
-				nr.erase(nr.begin() + (i - (int)nl.size()));
-			}
-			int j = rr() % (nl.size() + nr.size() + 2);
-			if (j <= (int)nl.size()) {
-				nl.insert(nl.begin() + j, x);
-			} else {
-				j -= (int)nl.size() + 1;
-				nr.insert(nr.begin() + j, x);
-			}
-
-			auto sc = get_score(nl) + get_score(nr);
-			if (sc > ans || rand_double() < exp((sc - ans) / temp)) {
-				ans = sc;
-				// cerr << ans << ", ";
-				left = nl;
-				right = nr;
 			}
 		}
 		return ans;
 	};
 
-	cout << f(265) << "\n";
+	int ans = 0;
+	for (int seed = 0; seed < 100; ++seed) {
+		ans = max(ans, f(seed));
+	}
+	cout << ans << "\n";
 
 	return 0;
 }
