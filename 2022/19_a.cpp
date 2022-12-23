@@ -421,7 +421,7 @@ struct ILP {
 	}
 };
 
-const int T = 32;
+const int T = 24;
 
 int f(
 		int ore_ore,
@@ -442,15 +442,6 @@ int f(
 	need[3][0] = geo_ore;
 	need[3][2] = geo_obs;
 
-	int maxneed[4];
-	memset(maxneed, 0, sizeof(maxneed));
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 4; ++j) {
-			maxneed[j] = max(maxneed[j], need[i][j]);
-		}
-	}
-	maxneed[3] = 1e9;
-
 	int have[4];
 	int res[4];
 	memset(have, 0, sizeof(have));
@@ -458,7 +449,7 @@ int f(
 	have[0] = 1;
 	int ans = 0;
 
-	auto rec = y_combinator([&](auto rec, int rem) {
+	function<void(int)> rec = [&](int rem) {
 		if (res[3] + have[3] * rem > ans) {
 			ans = res[3] + have[3] * rem;
 			cerr << "new score: " << ans << "\n";
@@ -468,9 +459,6 @@ int f(
 		}
 
 		for (int i = 3; i >= 0; --i) {
-			if (have[i] >= maxneed[i]) {
-				continue;
-			}
 			int need_time = 0;
 			for (int j = 0; j <= i; ++j) {
 				if (res[j] >= need[i][j]) {
@@ -496,7 +484,7 @@ int f(
 				res[j] -= have[j] * (need_time + 1) - need[i][j];
 			}
 		}
-	});
+	};
 	rec(T);
 	cerr << ans << " [" << (clock() - start) / 1. / CLOCKS_PER_SEC << "]\n";
 	return ans;
@@ -526,7 +514,7 @@ int main() {
 	// cerr << lp.get_dual_x() << "\n";
 	// return 0;
 
-	long long ans = 1;
+	long long ans = 0;
 	string s;
 	while (cin >> s) {
 		assert(s == "Blueprint");
@@ -578,10 +566,8 @@ int main() {
 		cin >> s;
 		assert(s == "obsidian.");
 
-		ans *= f(ore_ore, clay_ore, obs_ore, obs_clay, geo_ore, geo_obs);
-		if (id == 3) {
-			break;
-		}
+		ans += 1ll * id * f(ore_ore, clay_ore, obs_ore, obs_clay, geo_ore, geo_obs);
+		// break;
 	}
 	cout << ans << "\n";
 
