@@ -69,54 +69,46 @@ int main() {
 		return false;
 	};
 
+	vector<pair<int, int>> where = {{0, 1}};
 	int t = 0;
-
-	auto traverse = [&](pair<int, int> from, pair<int, int> to, bool debug = false) {
-		vector<pair<int, int>> where = {from};
-		while (true) {
-			++t;
-			vector<pair<int, int>> new_where;
-			for (auto [x, y] : where) {
-				for (int dx = -1; dx <= 1; ++dx) {
-					for (int dy = -1; dy <= 1; ++dy) {
-						if (abs(dx) + abs(dy) > 1) {
-							continue;
-						}
-						int nx = x + dx, ny = y + dy;
-						if (!is_occupied(nx, ny, t)) {
-							new_where.push_back({nx, ny});
-						}
+	while (true) {
+		++t;
+		vector<pair<int, int>> new_where;
+		for (auto [x, y] : where) {
+			for (int dx = -1; dx <= 1; ++dx) {
+				for (int dy = -1; dy <= 1; ++dy) {
+					if (abs(dx) + abs(dy) > 1) {
+						continue;
+					}
+					int nx = x + dx, ny = y + dy;
+					if (!is_occupied(nx, ny, t)) {
+						new_where.push_back({nx, ny});
 					}
 				}
 			}
-			make_unique(new_where);
-			if (debug) {
-				vector<string> b(n, string(m, '.'));
-				for (int i = 0; i < n; ++i) {
-					for (int j = 0; j < m; ++j) {
-						if (is_occupied(i, j, t)) {
-							b[i][j] = '#';
-						}
-					}
-				}
-				for (auto [x, y] : new_where) {
-					assert(b[x][y] != '#');
-					b[x][y] = '?';
-				}
-				for (auto s : b) {
-					cerr << s << "\n";
-				}
-				cerr << "\n";
-			}
-			if (find(all(new_where), to) != new_where.end()) {
-				break;
-			}
-			new_where.swap(where);
 		}
-	};
-	traverse({0, 1}, {n - 1, m - 2});
-	traverse({n - 1, m - 2}, {0, 1});
-	traverse({0, 1}, {n - 1, m - 2});
+		make_unique(new_where);
+		// vector<string> b(n, string(m, '.'));
+		// for (int i = 0; i < n; ++i) {
+		// 	for (int j = 0; j < m; ++j) {
+		// 		if (is_occupied(i, j, t)) {
+		// 			b[i][j] = '#';
+		// 		}
+		// 	}
+		// }
+		// for (auto [x, y] : new_where) {
+		// 	assert(b[x][y] != '#');
+		// 	b[x][y] = '?';
+		// }
+		// for (auto s : b) {
+		// 	cerr << s << "\n";
+		// }
+		// cerr << "\n";
+		if (new_where.back() == pair{n - 1, m - 2}) {
+			break;
+		}
+		new_where.swap(where);
+	}
 	cout << t << "\n";
 
 	return 0;
