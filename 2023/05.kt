@@ -21,10 +21,8 @@ fun getMappings(lines: List<String>): List<List<MapRange>> {
     return mappings
 }
 
-fun solveEasy(lines: List<String>): Long {
-    val mappings = getMappings(lines)
-
-    return lines[0].split(' ').drop(1).map(String::toLong).map {
+fun List<Long>.getAnswer(mappings: List<List<MapRange>>): Long {
+    return this.map {
         mappings.fold(it) { id, mapping ->
             for (rng in mapping) {
                 if (rng.contains(id)) {
@@ -34,6 +32,12 @@ fun solveEasy(lines: List<String>): Long {
             id
         }
     }.minOrNull()!!
+}
+
+fun solveEasy(lines: List<String>): Long {
+    val mappings = getMappings(lines)
+
+    return lines[0].split(' ').drop(1).map(String::toLong).getAnswer(mappings)
 }
 
 fun solveHard(lines: List<String>): Long {
@@ -51,16 +55,7 @@ fun solveHard(lines: List<String>): Long {
         } + mapping.map { listOf(it.src, it.src + it.len) }.flatten()).toSet().sorted()
     }.filter { x -> inputRanges.any { lst -> (lst[0] until lst[0]+lst[1]).contains(x) } } + inputRanges.map { it[0] }
 
-    return keyPoints.map {
-        mappings.fold(it) { id, mapping ->
-            for (rng in mapping) {
-                if (rng.contains(id)) {
-                    return@fold id + (rng.dst - rng.src)
-                }
-            }
-            id
-        }
-    }.minOrNull()!!
+    return keyPoints.getAnswer(mappings)
 }
 
 fun main() {
