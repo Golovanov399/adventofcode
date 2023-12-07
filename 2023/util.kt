@@ -38,3 +38,9 @@ fun <T> List<List<T>>.gridDfs(predicate: (T) -> Boolean, action: (Int, Int) -> U
 
 fun List<String>.gridDfs(predicate: (Char) -> Boolean, action: (Int, Int) -> Unit, newComponent: () -> Unit = {}) =
     this.map { it.toList() }.gridDfs(predicate, action, newComponent)
+
+operator fun <T : Comparable<T>> List<T>.compareTo(other: List<T>) = this
+    .zip(other)
+    .firstOrNull { (x, y) -> x != y }
+    ?.let { (x, y) -> x.compareTo(y) }
+    ?: this.size.compareTo(other.size)
