@@ -21,13 +21,9 @@ int main() {
 	}
 	sort(all(a[0]));
 	sort(all(a[1]));
-	map<int, int> M;
-	for (int x : a[1]) {
-		M[x] += 1;
-	}
-	long long ans = 0;
-	for (int x : a[0]) {
-		ans += 1ll * x * M[x];
+	int ans = 0;
+	for (int i = 0; i < (int)a[0].size(); ++i) {
+		ans += abs(a[0][i] - a[1][i]);
 	}
 	cout << ans << "\n";
 
