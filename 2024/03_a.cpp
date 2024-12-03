@@ -46,19 +46,9 @@ vector<string> read_lines() {
 
 int main() {
 	long long ans = 0;
-	bool enabled = true;
 	string s;
 	while (cin >> s) {
 		for (int i = 0; i < (int)s.length(); ++i) {
-			if (s.substr(i, 4) == "do()") {
-				enabled = true;
-				i += 3;
-				continue;
-			} else if (s.substr(i, 7) == "don't()") {
-				enabled = false;
-				i += 6;
-				continue;
-			}
 			if (s.substr(i, 4) != "mul(") {
 				continue;
 			}
@@ -99,9 +89,7 @@ int main() {
 			if (!ok) {
 				continue;
 			}
-			if (enabled) {
-				ans += x * y;
-			}
+			ans += x * y;
 		}
 	}
 	cout << ans << "\n";
