@@ -44,6 +44,7 @@ vector<string> read_lines() {
 	return res;
 }
 
+const string pat = "XMAS";
 int main() {
 	vector<string> a;
 	{
@@ -53,15 +54,25 @@ int main() {
 		}
 	}
 	int ans = 0;
-	for (int i = 1; i < (int)a.size() - 1; ++i) {
-		for (int j = 1; j < (int)a[i].size() - 1; ++j) {
-			if (a[i][j] != 'A') {
-				continue;
+	for (int i = 0; i < (int)a.size(); ++i) {
+		for (int j = 0; j < (int)a.size(); ++j) {
+			for (int dx = -1; dx <= 1; ++dx) {
+				for (int dy = -1; dy <= 1; ++dy) {
+					if (!dx && !dy) {
+						continue;
+					}
+					bool ok = true;
+					for (int idx = 0; idx < (int)pat.size(); ++idx) {
+						int x = i + dx * idx, y = j + dy * idx;
+						if (clamp(x, 0, (int)a.size() - 1) != x || clamp(y, 0, (int)a[x].size() - 1) != y) {
+							ok = false;
+							continue;
+						}
+						ok &= a[x][y] == pat[idx];
+					}
+					ans += ok;
+				}
 			}
-			ans += (a[i - 1][j - 1] == 'M' || a[i + 1][j + 1] == 'M')
-				&& (a[i - 1][j - 1] == 'S' || a[i + 1][j + 1] == 'S')
-				&& (a[i - 1][j + 1] == 'M' || a[i + 1][j - 1] == 'M')
-				&& (a[i - 1][j + 1] == 'S' || a[i + 1][j - 1] == 'S');
 		}
 	}
 	cout << ans << "\n";
