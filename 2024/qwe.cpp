@@ -45,26 +45,7 @@ vector<string> read_lines() {
 }
 
 int main() {
-	vector<string> a;
-	{
-		string s;
-		while (cin >> s) {
-			a.push_back(s);
-		}
-	}
-	int ans = 0;
-	for (int i = 1; i < (int)a.size() - 1; ++i) {
-		for (int j = 1; j < (int)a[i].size() - 1; ++j) {
-			if (a[i][j] != 'A') {
-				continue;
-			}
-			ans += (a[i - 1][j - 1] == 'M' || a[i + 1][j + 1] == 'M')
-				&& (a[i - 1][j - 1] == 'S' || a[i + 1][j + 1] == 'S')
-				&& (a[i - 1][j + 1] == 'M' || a[i + 1][j - 1] == 'M')
-				&& (a[i - 1][j + 1] == 'S' || a[i + 1][j - 1] == 'S');
-		}
-	}
-	cout << ans << "\n";
+	//
 
 	return 0;
 }
