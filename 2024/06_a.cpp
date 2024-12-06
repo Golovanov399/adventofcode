@@ -53,8 +53,7 @@ int main() {
 		}
 	}
 	const int n = a.size(), m = a[0].size();
-	vector<int> used(4 * n * m);
-	int timer = 0;
+	vector<vector<char>> used(n, vector<char>(m, false));
 	int x = -1, y = -1;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < m; ++j) {
@@ -63,47 +62,18 @@ int main() {
 			}
 		}
 	}
-	pair<int, int> st(x, y);
 	int dx = -1, dy = 0;
-	vector<pair<int, int>> cands;
+	int ans = 0;
 	while (clamp(x, 0, n - 1) == x && clamp(y, 0, m - 1) == y) {
+		ans += 1 - used[x][y];
+		used[x][y] = true;
 		int nx = x + dx, ny = y + dy;
-		if (clamp(nx, 0, n - 1) == nx && clamp(ny, 0, m - 1) == ny && a[nx][ny] != '#') {
-			cands.push_back({nx, ny});
-		}
 		if (clamp(nx, 0, n - 1) == nx && clamp(ny, 0, m - 1) == ny && a[nx][ny] == '#') {
 			dx *= -1;
 			swap(dx, dy);
 		} else {
 			x = nx, y = ny;
 		}
-	}
-	sort(all(cands));
-	cands.resize(unique(all(cands)) - cands.begin());
-
-	auto is_in_loop = [&](int xx, int yy) {
-		auto [x, y] = st;
-		int dx = -1, dy = 0;
-		++timer;
-		while (clamp(x, 0, n - 1) == x && clamp(y, 0, m - 1) == y) {
-			const int idx = (x * m + y) * 4 + (dx == -1 ? 0 : dy == -1 ? 1 : dy == 1 ? 2 : 3);
-			if (used[idx] == timer) {
-				return true;
-			}
-			used[idx] = timer;
-			int nx = x + dx, ny = y + dy;
-			if (clamp(nx, 0, n - 1) == nx && clamp(ny, 0, m - 1) == ny && (a[nx][ny] == '#' || (nx == xx && ny == yy))) {
-				dx *= -1;
-				swap(dx, dy);
-			} else {
-				x = nx, y = ny;
-			}
-		}
-		return false;
-	};
-	int ans = 0;
-	for (auto [xx, yy] : cands) {
-		ans += is_in_loop(xx, yy);
 	}
 	cout << ans << "\n";
 
