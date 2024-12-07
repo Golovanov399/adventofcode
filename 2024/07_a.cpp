@@ -56,17 +56,9 @@ bool rec(long long val, const vector<long long>& rhs, int i) {
 	if (val < 0) {
 		return false;
 	}
-	if (val % rhs[i] == 0 && rec(val / rhs[i], rhs, i)) {
-		return true;
+	if (val % rhs[i] == 0) {
+		return rec(val / rhs[i], rhs, i);
 	}
-	string s = to_string(val);
-	string t = to_string(rhs[i]);
-	if (val < rhs[i]) {
-		return false;
-	}
-	if (s.length() > t.length() && s.substr(s.length() - t.length()) == t) {
-		return rec(stoll(s.substr(0, s.length() - t.length())), rhs, i);
-	} 
 	return false;
 }
 
