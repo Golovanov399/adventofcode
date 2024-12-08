@@ -92,18 +92,13 @@ int main() {
 	for (const auto& [_, v] : M) {
 		for (const auto& [x1, y1] : v) {
 			for (const auto& [x2, y2] : v) {
-				int g = gcd(abs(x2 - x1), abs(y2 - y1));
-				if (g == 0) {
+				if (x1 == x2 && y1 == y2) {
 					continue;
 				}
-				for (int i = 0;; ++i) {
-					int x3 = x1 + (x2 - x1) / g * i;
-					int y3 = y1 + (y2 - y1) / g * i;
-					if (clamp(x3, 0, n - 1) == x3 && clamp(y3, 0, m - 1) == y3) {
-						used[x3][y3] = true;
-					} else {
-						break;
-					}
+				int x3 = 2 * x2 - x1;
+				int y3 = 2 * y2 - y1;
+				if (clamp(x3, 0, n - 1) == x3 && clamp(y3, 0, m - 1) == y3) {
+					used[x3][y3] = true;
 				}
 			}
 		}
