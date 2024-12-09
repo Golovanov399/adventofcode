@@ -73,38 +73,30 @@ bool rec(long long val, const vector<long long>& rhs, int i) {
 int main() {
 	string s;
 	cin >> s;
-	vector<pair<int, int>> blocks;
+	vector<int> res;
 	for (int i = 0; i < (int)s.size(); i += 2) {
 		if (i) {
-			blocks.push_back({s[i - 1] - '0', -1});
+			for (int j = 0; j < s[i - 1] - '0'; ++j) {
+				res.push_back(-1);
+			}
 		}
-		blocks.push_back({s[i] - '0', i / 2});
+		for (int j = 0; j < s[i] - '0'; ++j) {
+			res.push_back(i / 2);
+		}
 	}
-	for (int i = (int)blocks.size() - 1; i > 0; --i) {
-		if (blocks[i].second == -1) {
+	for (int i = 0; i < (int)res.size(); ++i) {
+		if (res[i] > -1) {
 			continue;
 		}
-		// for (auto [k, v] : blocks) {
-		// 	cerr << string(k, v > -1 ? (char)('0' + v) : '.');
-		// }
-		// cerr << "\n";
-		int j = 0;
-		while (j < i && (blocks[j].second > -1 || blocks[j].first < blocks[i].first)) {
-			++j;
-		}
-		if (j < i) {
-			blocks[j].first -= blocks[i].first;
-			blocks.insert(blocks.begin() + i + 1, {blocks[i].first, -1});
-			rotate(blocks.begin() + j, blocks.begin() + i, blocks.begin() + i + 1);
+		res[i] = res.back();
+		res.pop_back();
+		while (res.back() == -1) {
+			res.pop_back();
 		}
 	}
-	int cur = 0;
 	long long ans = 0;
-	for (int i = 0; i < (int)blocks.size(); ++i) {
-		if (blocks[i].second > -1) {
-			ans += 1ll * (cur + cur + blocks[i].first - 1) * blocks[i].first / 2 * blocks[i].second;
-		}
-		cur += blocks[i].first;
+	for (int i = 0; i < (int)res.size(); ++i) {
+		ans += 1ll * i * res[i];
 	}
 	cout << ans << "\n";
 
