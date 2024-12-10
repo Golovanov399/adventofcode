@@ -79,7 +79,7 @@ int main() {
 		}
 	}
 	const int n = a.size(), m = a[0].size();
-	vector<vector<int>> dp(n, vector<int>(m, 0));
+	vector<vector<vector<int>>> dp(n, vector<vector<int>>(m));
 	int ans = 0;
 	for (char c = '9'; c >= '0'; --c) {
 		for (int i = 0; i < n; ++i) {
@@ -88,7 +88,7 @@ int main() {
 					continue;
 				}
 				if (c == '9') {
-					dp[i][j] = 1;
+					dp[i][j] = {i * m + j};
 				} else {
 					for (int dx = -1; dx <= 1; ++dx) {
 						for (int dy = -1; dy <= 1; ++dy) {
@@ -97,13 +97,15 @@ int main() {
 							}
 							const int x = i + dx, y = j + dy;
 							if (clamp(x, 0, n - 1) == x && clamp(y, 0, m - 1) == y && a[x][y] == c + 1) {
-								dp[i][j] += dp[x][y];
+								dp[i][j].insert(dp[i][j].end(), all(dp[x][y]));
 							}
 						}
 					}
 				}
+				sort(all(dp[i][j]));
+				dp[i][j].resize(unique(all(dp[i][j])) - dp[i][j].begin());
 				if (c == '0') {
-					ans += dp[i][j];
+					ans += dp[i][j].size();
 				}
 			}
 		}
