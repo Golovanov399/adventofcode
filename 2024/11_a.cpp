@@ -78,43 +78,22 @@ int main() {
 			a.push_back(x);
 		}
 	}
-
-	const int K = 76;
-	const int N = 1e5;
-	vector<vector<long long>> cache(K, vector<long long>(N, 0));
-	auto calc = [&](auto self, const vector<long long>& a, int k) -> long long {
-		if (k == 0) {
-			return a.size();
-		}
+	for (int i = 0; i < 25; ++i) {
 		vector<long long> b;
-		long long to_add = 0;
-		--k;
-		auto add = [&](long long x) {
-			if (x < N) {
-				to_add += cache[k][x];
-			} else {
-				b.push_back(x);
-			}
-		};
 		for (long long x : a) {
 			if (x == 0) {
-				add(1);
+				b.push_back(1);
 			} else if (to_string(x).size() % 2 == 0) {
 				auto s = to_string(x);
-				add(stoll(s.substr(0, s.size() / 2)));
-				add(stoll(s.substr(s.size() / 2)));
+				b.push_back(stoll(s.substr(0, s.size() / 2)));
+				b.push_back(stoll(s.substr(s.size() / 2)));
 			} else {
-				add(x * 2024);
+				b.push_back(x * 2024);
 			}
 		}
-		return to_add + self(self, b, k);
-	};
-	for (int k = 0; k < K; ++k) {
-		for (int i = 0; i < N; ++i) {
-			cache[k][i] = calc(calc, {1ll * i}, k);
-		}
+		a.swap(b);
 	}
-	cout << calc(calc, a, 75) << "\n";
+	cout << a.size() << "\n";
 
 	return 0;
 }

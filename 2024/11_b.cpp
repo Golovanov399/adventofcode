@@ -113,6 +113,7 @@ int main() {
 		for (int i = 0; i < N; ++i) {
 			cache[k][i] = calc(calc, {1ll * i}, k);
 		}
+		cerr << k << " done, ";
 	}
 	cout << calc(calc, a, 75) << "\n";
 
