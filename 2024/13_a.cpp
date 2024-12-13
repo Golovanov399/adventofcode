@@ -45,7 +45,7 @@ vector<string> read_lines() {
 }
 
 int main() {
-	long long ans = 0;
+	int ans = 0;
 
 	string s;
 	while (cin >> s) {
@@ -53,53 +53,38 @@ int main() {
 		cin >> s;
 		s.pop_back();
 		s = s.substr(s.find('+') + 1);
-		long long ax = stoi(s);
+		int ax = stoi(s);
 		cin >> s;
 		s = s.substr(s.find('+') + 1);
-		long long ay = stoi(s);
+		int ay = stoi(s);
 
 		cin >> s;
 		cin >> s;
 		cin >> s;
 		s.pop_back();
 		s = s.substr(s.find('+') + 1);
-		long long bx = stoi(s);
+		int bx = stoi(s);
 		cin >> s;
 		s = s.substr(s.find('+') + 1);
-		long long by = stoi(s);
+		int by = stoi(s);
 
 		cin >> s;
 		cin >> s;
 		s.pop_back();
 		s = s.substr(s.find('=') + 1);
-		long long x = 10000000000000ll + stoi(s);
+		int x = stoi(s);
 		cin >> s;
 		s = s.substr(s.find('=') + 1);
-		long long y = 10000000000000ll + stoi(s);
+		int y = stoi(s);
 
-		long long res = LLONG_MAX;
+		int res = INT_MAX;
 		for (int i = 0; i <= 100; ++i) {
-			long long rx = x - ax * i, ry = y - ay * i;
-			if (rx >= 0 && ry >= 0 && rx % bx == 0 && ry % by == 0 && rx / bx == ry / by) {
+			int rx = x - ax * i, ry = y - ay * i;
+			if (rx >= 0 && ry >= 0 && rx % bx == 0 && ry % by == 0 && rx / bx == ry / by && rx / bx <= 100) {
 				res = min(res, 3 * i + (rx / bx));
 			}
 		}
-		for (int i = 0; i <= 100; ++i) {
-			long long rx = x - bx * i, ry = y - by * i;
-			if (rx >= 0 && ry >= 0 && rx % ax == 0 && ry % ay == 0 && rx / ax == ry / ay) {
-				res = min(res, i + 3 * (rx / ax));
-			}
-		}
-		{
-			long long det = ax * by - ay * bx;
-			long long num1 = x * by - y * bx;
-			long long num2 = ax * y - ay * x;
-			if (det != 0 && num1 % det == 0 && num2 % det == 0) {
-				res = min(res, num1 / det * 3 + num2 / det);
-			}
-		}
-
-		if (res != LLONG_MAX) {
+		if (res != INT_MAX) {
 			ans += res;
 		}
 	}
