@@ -44,14 +44,11 @@ vector<string> read_lines() {
 	return res;
 }
 
-struct Guy {
-	int x, y;
-	int dx, dy;
-};
-
 int main() {
 	const int w = 101, h = 103;
-	vector<Guy> guys;
+	const int wait_time = 100;
+	int cnt[2][2];
+	memset(cnt, 0, sizeof(cnt));
 	string s;
 	while (cin >> s) {
 		s = s.substr(2);
@@ -66,28 +63,14 @@ int main() {
 		dx = (dx % h + h) % h;
 		dy = (dy % w + w) % w;
 
-		guys.push_back({x, y, dx, dy});
+		x = (x + dx * wait_time) % h;
+		y = (y + dy * wait_time) % w;
+		// cerr << x << " " << y << "\n";
+		if (x != h / 2 && y != w / 2) {
+			cnt[x > h/2][y > w/2] += 1;
+		}
 	}
-	int t = 0;
-	while (t < 10000) {
-		vector<string> a(h, string(w, ' '));
-		for (const auto& g : guys) {
-			a[g.x][g.y] = '#';
-		}
-		if (t % 103 == 461 % 103) {
-			cout << t << ":\n";
-			for (auto s : a) {
-				cout << s << "\n";
-			}
-			cout << "\n";
-		}
-		for (auto& g : guys) {
-			g.x = (g.x + g.dx) % h;
-			g.y = (g.y + g.dy) % w;
-		}
-		++t;
-	}
-	cerr << t << "\n";
+	cout << cnt[0][0] * cnt[0][1] * cnt[1][0] * cnt[1][1] << "\n";
 
 	return 0;
 }
