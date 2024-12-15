@@ -44,22 +44,6 @@ vector<string> read_lines() {
 	return res;
 }
 
-string expand(const string& s) {
-	string res;
-	for (char c : s) {
-		if (c == 'O') {
-			res += "[]";
-		} else {
-			res += c;
-			res += c;
-			if (c == '@') {
-				res.back() = '.';
-			}
-		}
-	}
-	return res;
-}
-
 int main() {
 	vector<string> a;
 	string s;
@@ -67,7 +51,7 @@ int main() {
 		if (s == "") {
 			break;
 		}
-		a.push_back(expand(s));
+		a.push_back(s);
 	}
 	const int n = a.size(), m = a[0].size();
 	cin >> s;
@@ -77,8 +61,6 @@ int main() {
 			s += t;
 		}
 	}
-	vector<vector<int>> used(n, vector<int>(m, 0));
-	int timer = 0;
 	for (char d : s) {
 		int x = 0, y = 0;
 		for (int i = 0; i < n; ++i) {
@@ -101,54 +83,16 @@ int main() {
 		} else {
 			assert(false);
 		}
-		if (dx) {
-			vector<pair<int, int>> boxes;
-			++timer;
-			function<bool(int, int)> rec = [&](int x, int y) {
-				if (a[x][y] == '#') {
-					return false;
-				}
-				if (a[x][y] == '.') {
-					return true;
-				}
-				if (a[x][y] == ']') {
-					--y;
-				}
-				if (used[x][y] == timer) {
-					return true;
-				}
-				used[x][y] = timer;
-				boxes.push_back({x, y});
-				if (!rec(x + dx, y)) {
-					return false;
-				}
-				if (!rec(x + dx, y + 1)) {
-					return false;
-				}
-				return true;
-			};
-			if (rec(x + dx, y + dy)) {
-				for (auto [x, y] : boxes) {
-					a[x][y] = a[x][y + 1] = '.';
-				}
-				for (auto [x, y] : boxes) {
-					a[x + dx][y] = '[';
-					a[x + dx][y + 1] = ']';
-				}
-				swap(a[x][y], a[x + dx][y + dy]);
-			}
-		} else {
-			int nx = x, ny = y;
-			while (a[nx][ny] != '.' && a[nx][ny] != '#') {
-				nx += dx;
-				ny += dy;
-			}
-			if (a[nx][ny] == '.') {
-				while (nx != x || ny != y) {
-					swap(a[nx][ny], a[nx - dx][ny - dy]);
-					nx -= dx;
-					ny -= dy;
-				}
+		int nx = x, ny = y;
+		while (a[nx][ny] != '.' && a[nx][ny] != '#') {
+			nx += dx;
+			ny += dy;
+		}
+		if (a[nx][ny] == '.') {
+			while (nx != x || ny != y) {
+				swap(a[nx][ny], a[nx - dx][ny - dy]);
+				nx -= dx;
+				ny -= dy;
 			}
 		}
 	}
@@ -158,7 +102,7 @@ int main() {
 	int ans = 0;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < m; ++j) {
-			if (a[i][j] == '[') {
+			if (a[i][j] == 'O') {
 				ans += 100 * i + j;
 			}
 		}
