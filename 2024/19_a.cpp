@@ -59,10 +59,10 @@ int main() {
 		}
 		sort(all(can));
 	}
-	long long ans = 0;
+	int ans = 0;
 	while (cin >> s) {
 		const int n = s.length();
-		vector<long long> dp(n + 1);
+		vector<char> dp(n + 1);
 		dp[0] = 1;
 		for (int i = 0; i < n; ++i) {
 			if (!dp[i]) {
@@ -70,11 +70,14 @@ int main() {
 			}
 			for (int len = 1; i + len <= n; ++len) {
 				if (binary_search(all(can), s.substr(i, len))) {
-					dp[i + len] += dp[i];
+					dp[i + len] = true;
 				}
 			}
 		}
-		ans += dp[n];
+		if (dp[n]) {
+			// cerr << s << "\n";
+			ans += 1;
+		}
 	}
 	cout << ans << "\n";
 
