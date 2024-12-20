@@ -69,13 +69,11 @@ int main() {
 	}
 
 	vector<vector<int>> idx(n, vector<int>(m, -1));
-	vector<pair<int, int>> where;
 	int sz = 0;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < m; ++j) {
 			if (a[i][j] == '.') {
 				idx[i][j] = sz++;
-				where.push_back({i, j});
 			}
 		}
 	}
@@ -143,18 +141,22 @@ int main() {
 			}
 		}
 	}
-
-	int ans = 0;
 	const int honest = d_s[idx[fi.first][fi.second]];
-	for (int i = 0; i < sz; ++i) {
-		for (int j = 0; j < sz; ++j) {
-			const int w = abs(where[i].first - where[j].first) + abs(where[i].second - where[j].second);
-			if (w <= 20 && d_s[i] + d_f[j] + w <= honest - 100) {
-				ans += 1;
-			}
-		}
+	map<int, int> save_by;
+	int ans = 0;
+	for (auto p : M) {
+		ans += honest - p.second >= 100;
 	}
 	cout << ans << "\n";
+
+	// for (auto p : M) {
+	// 	save_by[honest - p.second] += 1;
+	// }
+	// for (auto [k, v] : save_by) {
+	// 	if (k > 0) {
+	// 		cerr << k << ": x" << v << "\n";
+	// 	}
+	// }
 
 	return 0;
 }
