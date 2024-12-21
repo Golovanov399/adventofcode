@@ -60,9 +60,9 @@ const map<char, pair<int, int>> numpads = []() {
 	return M;
 }();
 
-map<pair<string, int>, long long> cache;
+map<pair<string, int>, int> cache;
 
-long long f(const string& s, int k) {
+int f(const string& s, int k) {
 	if (k == 0) {
 		return s.length();
 	}
@@ -72,7 +72,7 @@ long long f(const string& s, int k) {
 	}
 
 	auto [x, y] = numpads.at('A');
-	long long ans = 0;
+	int ans = 0;
 	for (char c : s) {
 		vector<pair<char, int>> need;
 		auto [nx, ny] = numpads.at(c);
@@ -88,7 +88,7 @@ long long f(const string& s, int k) {
 		if (nx > x) {
 			need.push_back({'^', nx - x});
 		}
-		long long res = 3e18;
+		int res = 1e9;
 		sort(all(need));
 		do {
 			int xx = x, yy = y;
@@ -127,7 +127,7 @@ int main() {
 	string s;
 	long long ans = 0;
 	while (cin >> s) {
-		auto t = f(s, 26);
+		auto t = f(s, 3);
 		string num;
 		for (char c : s) {
 			if (isdigit(c)) {
