@@ -54,27 +54,15 @@ u32 f(u32 x) {
 }
 
 int main() {
+	uint64_t ans = 0;
 	uint32_t cur;
-	vector<int> ans(19 * 19 * 19 * 19);
-	vector<int> used(19 * 19 * 19 * 19);
-	int timer = 0;
 	while (cin >> cur) {
-		vector<int> dgs = {(int)cur % 10};
 		for (int i = 0; i < 2000; ++i) {
 			cur = f(cur);
-			dgs.push_back((int)cur % 10);
 		}
-		++timer;
-		int cr = 0;
-		for (int i = 1; i < (int)dgs.size(); ++i) {
-			cr = (cr * 19 + 9 + (dgs[i] - dgs[i - 1])) % used.size();
-			if (i >= 4 && used[cr] < timer) {
-				used[cr] = timer;
-				ans[cr] += dgs[i];
-			}
-		}
+		ans += cur;
 	}
-	cout << *max_element(all(ans)) << "\n";
+	cout << ans << "\n";
 
 	return 0;
 }
