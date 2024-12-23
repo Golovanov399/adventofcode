@@ -56,44 +56,17 @@ int main() {
 		}
 	}
 
-	vector<string> opt;
-	auto rec = [&](auto self, vector<string> cur, vector<string> rem) -> void {
-		if (cur.size() > opt.size()) {
-			opt = cur;
-			sort(all(opt));
-			for (auto s : opt) {
-				cerr << s;
-			}
-			cerr << "\n";
-		}
-		while (!rem.empty()) {
-			auto s = rem.back();
-			rem.pop_back();
-			vector<string> nw;
-			const auto& S = M[s];
-			for (auto t : rem) {
-				if (S.contains(t)) {
-					nw.push_back(t);
+	int ans = 0;
+	for (const auto& [a, s] : M) {
+		for (auto b : s) {
+			for (auto c : s) {
+				if (a < b && a < c && b < c && M[b].contains(c) && (a[0] == 't' || b[0] == 't' || c[0] == 't')) {
+					ans += 1;
 				}
 			}
-			cur.push_back(s);
-			self(self, cur, nw);
-			cur.pop_back();
 		}
-	};
-
-	vector<string> everything;
-	for (const auto& p : M) {
-		everything.push_back(p.first);
 	}
-	rec(rec, {}, everything);
-	for (int i = 0; i < (int)opt.size(); ++i) {
-		if (i) {
-			cout << ",";
-		}
-		cout << opt[i];
-	}
-	cout << "\n";
+	cout << ans << "\n";
 
 	return 0;
 }
