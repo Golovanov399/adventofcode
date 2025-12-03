@@ -44,31 +44,21 @@ vector<string> read_lines() {
 	return res;
 }
 
-const int K = 12;
-const auto p10 = []() {
-	vector<long long> p10(K + 1, 1);
-	for (int i = 1; i <= K; ++i) {
-		p10[i] = p10[i - 1] * 10;
-	}
-	return p10;
-}();
-
-long long get_max(string s) {
-	vector<long long> mx(K + 1, -1);
-	mx[0] = 0;
+int get_max(string s) {
+	char mx = 0;
+	int ans = 0;
 	for (int i = (int)s.length() - 1; i >= 0; --i) {
-		for (int j = K; j > 0; --j) {
-			if (mx[j - 1] > -1) {
-				mx[j] = max(mx[j], mx[j - 1] + p10[j - 1] * (s[i] - '0'));
-			}
+		if (mx) {
+			ans = max(ans, (s[i] - '0') * 10 + (mx - '0'));
 		}
+		mx = max(mx, s[i]);
 	}
-	return mx[K];
+	return ans;
 }
 
 int main() {
 	auto lines = read_lines();
-	long long ans = 0;
+	int ans = 0;
 	for (auto s : lines) {
 		ans += get_max(s);
 	}
