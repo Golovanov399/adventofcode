@@ -50,7 +50,7 @@ int main() {
 	const int m = a[0].size();
 
 	auto neigs = [&](int x, int y) {
-		vector<pair<int, int>> res;
+		int ans = 0;
 		for (int i = -1; i <= 1; ++i) {
 			for (int j = -1; j <= 1; ++j) {
 				if (!i && !j) {
@@ -58,39 +58,17 @@ int main() {
 				}
 				int nx = x + i, ny = y + j;
 				if (clamp(nx, 0, n - 1) == nx && clamp(ny, 0, m - 1) == ny) {
-					if (a[nx][ny] == '@') {
-						res.push_back({nx, ny});
-					}
+					ans += a[nx][ny] == '@';
 				}
 			}
 		}
-		return res;
+		return ans;
 	};
 
-	set<pair<int, pair<int, int>>> S;
+	int ans = 0;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < m; ++j) {
-			if (a[i][j] == '@') {
-				S.insert({(int)neigs(i, j).size(), {i, j}});
-			}
-		}
-	}
-
-	int ans = 0;
-	while (!S.empty()) {
-		auto [cnt, p] = *S.begin();
-		auto [x, y] = p;
-		S.erase(S.begin());
-		if (cnt >= 4) {
-			break;
-		}
-		++ans;
-		auto ns = neigs(x, y);
-		a[x][y] = '.';
-		for (auto [xx, yy] : ns) {
-			int ncnt = neigs(xx, yy).size();
-			S.erase({ncnt + 1, {xx, yy}});
-			S.insert({ncnt, {xx, yy}});
+			ans += (a[i][j] == '@' && neigs(i, j) < 4);
 		}
 	}
 	cout << ans << "\n";
