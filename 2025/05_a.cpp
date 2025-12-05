@@ -47,7 +47,8 @@ vector<string> read_lines() {
 int main() {
 	auto a = read_lines();
 	
-	vector<pair<long long, int>> fresh;
+	vector<pair<long long, long long>> fresh;
+	int ans = 0;
 	for (auto s : a) {
 		if (s.empty()) {
 			continue;
@@ -55,20 +56,18 @@ int main() {
 		if (auto i = s.find('-'); i != string::npos) {
 			auto l = stoll(s.substr(0, i));
 			auto r = stoll(s.substr(i + 1));
-			fresh.push_back({l, 1});
-			fresh.push_back({r + 1, -1});
+			fresh.push_back({l, r});
+		} else {
+			long long x = stoll(s);
+			bool ok = false;
+			for (auto [l, r] : fresh) {
+				if (l <= x && x <= r) {
+					ok = true;
+					break;
+				}
+			}
+			ans += ok;
 		}
-	}
-	long long ans = 0;
-	sort(all(fresh));
-	long long last = -1;
-	int bal = 0;
-	for (auto [x, i] : fresh) {
-		if (bal) {
-			ans += x - last;
-		}
-		last = x;
-		bal += i;
 	}
 	cout << ans << "\n";
 
