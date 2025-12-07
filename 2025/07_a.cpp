@@ -50,27 +50,27 @@ int main() {
 	const int n = a.size();
 	const int m = a[0].size();
 
-	map<int, long long> pos;
+	vector<int> pos;
 	for (int i = 0; i < m; ++i) {
 		if (a[0][i] == 'S') {
-			pos[i] = 1;
+			pos.push_back(i);
 		}
 	}
+	int ans = 0;
 	for (int i = 1; i < n; ++i) {
-		map<int, long long> npos;
-		for (auto [j, cnt] : pos) {
+		vector<int> npos;
+		for (int j : pos) {
 			if (a[i][j] == '^') {
-				npos[j - 1] += cnt;
-				npos[j + 1] += cnt;
+				++ans;
+				npos.push_back(j - 1);
+				npos.push_back(j + 1);
 			} else {
-				npos[j] += cnt;
+				npos.push_back(j);
 			}
 		}
+		sort(all(npos));
+		npos.resize(unique(all(npos)) - npos.begin());
 		pos.swap(npos);
-	}
-	long long ans = 0;
-	for (auto p : pos) {
-		ans += p.second;
 	}
 	cout << ans << "\n";
 
