@@ -107,16 +107,21 @@ int main() {
 		return true;
 	};
 
-	int rem = n - 1;
-	long long prod = 0;
+	pairs.resize(1000);
 	for (auto [i, j] : pairs) {
-		prod = pts[i].x * 1ll * pts[j].x;
-		if (merge(i, j)) {
-			--rem;
-			if (rem == 0) {
-				break;
-			}
-		}
+		merge(i, j);
+	}
+
+	vector<int> sizes;
+	for (auto v : by_color) {
+		sizes.push_back(v.size());
+	}
+	sort(all(sizes));
+	reverse(all(sizes));
+	sizes.resize(3);
+	long long prod = 1;
+	for (auto x : sizes) {
+		prod *= x;
 	}
 	cout << prod << "\n";
 
