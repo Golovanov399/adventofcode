@@ -21,23 +21,13 @@ in_deg = defaultdict(int)
 for v in a.values():
 	for s in v:
 		in_deg[s] += 1
+cnt = {k: 0 for k in nodes}
+cnt["you"] = 1
 order = [x for x in nodes if in_deg[x] == 0]
 for v in order:
 	for u in a[v]:
 		in_deg[u] -= 1
+		cnt[u] += cnt[v]
 		if in_deg[u] == 0:
 			order.append(u)
-
-ans = 0
-for start, finish in [("fft", "dac"), ("dac", "fft")]:
-	res = 1
-	req = ["svr", start, finish, "out"]
-	for i in range(len(req) - 1):
-		cnt = {k: 0 for k in nodes}
-		cnt[req[i]] = 1
-		for v in order:
-			for u in a[v]:
-				cnt[u] += cnt[v]
-		res *= cnt[req[i + 1]]
-	ans += res
-print(ans)
+print(cnt["out"])
